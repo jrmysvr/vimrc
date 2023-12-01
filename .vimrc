@@ -16,8 +16,7 @@ set hlsearch
 " Highlight the current cursor line
 set cursorline
 
-" Highlight the 80 columns margin.
-set colorcolumn=80
+set colorcolumn=80,99,120
 
 " Trim the trailing white space on save.
 autocmd BufWritePre <buffer> :%s/\s\+$//e
@@ -40,7 +39,6 @@ set foldmethod=syntax
 " Do not fold the code by default
 set foldlevel=10000
 
-
 set termguicolors
 set guicursor=
 set signcolumn=yes
@@ -56,12 +54,14 @@ set listchars=space:\.
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-call plug#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" -------- vim-plug --------
 
-" let Vundle manage Vundle, required
-Plug 'VundleVim/Vundle.vim'
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
 
 " Flash yanked area
 Plug 'kana/vim-operator-user'
@@ -73,14 +73,10 @@ Plug 'elzr/vim-json'
 " fugitive.vim: A Git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
 
-" The monokai color scheme.
-Plug 'filfirst/Monota'
-
 " The project source tree browser.
 Plug 'scrooloose/nerdtree'
 
-" A light and configurable statusline/tabline plugin for Vim
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
 
 " The enhanced C++ syntax highlighting.
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -90,11 +86,19 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " Auto-Indentation Python
 Plug 'vim-scripts/indentpython.vim'
 
-" Check Python Syntax
-Plug 'vim-syntastic/syntastic'
-
 " PEP 8 checking
 Plug 'nvie/vim-flake8'
+
+" Python Black
+Plug 'psf/black', {'branch':'stable'}
+
+" Python Autocompletion
+Plug 'davidhalter/jedi-vim'
+
+" Pylint support
+Plug 'gryf/pylint-vim'
+
+Plug 'vim-syntastic/syntastic'
 
 " Super Searching
 Plug 'kien/ctrlp.vim'
@@ -108,20 +112,17 @@ Plug 'scrooloose/nerdcommenter'
 " VimWiki
 Plug 'vimwiki/vimwiki'
 
-" Auto PEP8
-" Plug 'tell-k/vim-autopep8'
-" Python Black
-Plug 'psf/black', {'branch':'stable'}
-
-" Python Autocompletion
-Plug 'davidhalter/jedi-vim'
-
 " Markdown Preview
 Plug 'shime/vim-livedown'
 
 " Markdown Pandoc
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+"
+" Copilot Support
+" Plug 'github/copilot.vim'
+
+Plug 'kovetskiy/vim-bash'
 
 " Latex Support
 Plug 'lervag/vimtex'
@@ -143,34 +144,35 @@ Plug 'alaviss/nim.nvim'
 " Rust Support
 Plug 'rust-lang/rust.vim'
 
-" All of your Plugs must be added before the following line
-call plug#end()
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PlugList       - lists configured plugins
-" :PlugInstall    - installs plugins; append `!` to update or just :PlugUpdate
-" :PlugSearch foo - searches for foo; append `!` to refresh local cache
-" :PlugClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plug stuff after this line
+" Nightfox Theme
+Plug 'EdenEast/nightfox.nvim'
 
-" ---------- Monokai color scheme ----------
-" syntax on
-colorscheme Monota
+" Moonfly Theme
+Plug 'https://github.com/bluz71/vim-moonfly-colors'
+
+" Kanagawa Theme
+Plug 'https://github.com/rebelot/kanagawa.nvim'
+
+" The monokai color scheme.
+Plug 'filfirst/Monota'
+
+" The falcon theme
+Plug 'fenetikm/falcon'
+
+" Everforest theme
+Plug 'sainnhe/everforest'
+
+
+" All of your Plugs must be added before the following line
+call plug#end()            " required
+filetype plugin indent on    " required
+
 
 " ---------- NerdTree Project Browser ----------
 nnoremap <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeMinimalMenu = 1
 
-
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-"autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
 
 " ----------- Nerd Commenter ---------------
 let g:NERDSpaceDelims = 1
@@ -194,10 +196,6 @@ au BufNewFile, BufRead *.py
     \ set fileformat=unix|
     \ set encoding=utf-8|
 
-
-" let python_highlight_all=1
-" syntax on
-
 " Ignore files in NERDTree
 let NERDTreeIgnore=['\.pyc$', '\~$']
 
@@ -206,58 +204,21 @@ set clipboard=unnamed
 
 " ----------- Syntastic ----------------
 
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+" Disable pymode
+let g:pymode_lint_on_write=0
 
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_python_checkers=['autopep8'] ", 'pylint']
 let g:syntastic_python_python_exec='python3'
 let g:syntastic_python_checkers=['flake8']
-" let g:syntastic_python_checkers=['black']
-
-" ----------- Autopep8 ---------------
-
-" let g:autopep8_ignore="E221"
-" let g:autopep8_ignore="E402"
-" let g:autopep8_max_line_length=79
-" let g:autopep8_aggressive=1
-" let g:autopep8_on_save=1
-" let g:autopep8_disable_show_diff=1
+let g:syntastic_python_flake8_args = '--ignore=W503,E203,E501,E402'
 
 " ----------- Black ---------------
 "  Run Black when saving python files
-" autocmd BufWritePre *.py execute ':Black'
-let g:black_linelength=79
+let g:black_linelength=99
 
 " --------- Vim Operator Flashy --------
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
-
-" -------- Lightline ---------
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'realpath', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
-      \ },
-      \ }
-
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
 
 " ------- Latex -------
 let g:tex_flavor='latex'
@@ -271,19 +232,10 @@ let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
-setlocal spell spelllang=en_us,de_ch
+if has('nvim')
+    setlocal spell spelllang=en_us,de_ch
+endif
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
-" -------- Neomake ---------
-" When writing a buffer (no delay).
-call neomake#configure#automake('w')
-" When writing a buffer (no delay), and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
-" When reading a buffer (after 1s), and when writing (no delay).
-call neomake#configure#automake('rw', 1000)
-" Full config: when writing or reading a buffer, and on changes in insert and
-" normal mode (after 500ms; no delay when writing).
-call neomake#configure#automake('nrwi', 500)
 
 " -------- CoC ----------
 
@@ -324,3 +276,58 @@ autocmd BufNew,BufEnter *.py execute "silent! CocDisable"
 " Flag unnecessary whitespace
 au BufRead, BufNewFile *.py,*.pyw,*.c,*.h,*.cpp,*.hpp match BadWhitespace /\s\+$/
 
+" ------ Lualine -------
+"
+lua << END
+require('lualine').setup {
+  options = { theme = 'ayu_dark' },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'filename'},
+    lualine_c = {'branch'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactivate_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+}
+END
+
+" ########## Themes ############
+" ---------- Monokai color scheme ----------
+" syntax on
+" colorscheme Monota
+
+" ---------- Falcon -----------
+" colorscheme falcon
+
+" ---------- Tokyo Night -----------
+"
+" colorscheme tokyonight
+"
+" ---------- Nightfox -----------
+"
+" colorscheme nightfox
+
+" ---------- Moonfly -----------
+"
+colorscheme moonfly
+
+" ---------- Kanagawa -----------
+"
+"colorscheme kanagawa-dragon
+
+" ---------- Everforest -----------
+"
+" set background=dark " dark or light
+" let g:everforest_background = 'hard' "hard, medium, soft
+" let g:everforest_enable_italic = 1
+" let g:everforest_disable_italic_comment = 1
+" colorscheme everforest
