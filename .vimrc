@@ -56,112 +56,107 @@ set listchars=space:\.
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" -------- Vundle --------
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'VundleVim/Vundle.vim'
 
 " Flash yanked area
-Plugin 'kana/vim-operator-user'
-Plugin 'haya14busa/vim-operator-flashy'
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
 
 " better JSON for Vim
-Plugin 'elzr/vim-json'
+Plug 'elzr/vim-json'
 
 " fugitive.vim: A Git wrapper so awesome, it should be illegal
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " The monokai color scheme.
-Plugin 'filfirst/Monota'
+Plug 'filfirst/Monota'
 
 " The project source tree browser.
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
 " A light and configurable statusline/tabline plugin for Vim
-Plugin 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 
 " The enhanced C++ syntax highlighting.
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Plugin 'neoclide/coc.nvim', {'branch':'release'}
+" Plug 'neoclide/coc.nvim', {'branch':'release'}
 
 " Auto-Indentation Python
-Plugin 'vim-scripts/indentpython.vim'
+Plug 'vim-scripts/indentpython.vim'
 
 " Check Python Syntax
-Plugin 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " PEP 8 checking
-Plugin 'nvie/vim-flake8'
+Plug 'nvie/vim-flake8'
 
 " Super Searching
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
 " tmux navigation
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Nerd Commenting
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " VimWiki
-Plugin 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 
 " Auto PEP8
-" Plugin 'tell-k/vim-autopep8'
+" Plug 'tell-k/vim-autopep8'
 " Python Black
-Plugin 'psf/black', {'branch':'stable'}
+Plug 'psf/black', {'branch':'stable'}
 
 " Python Autocompletion
-Plugin 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " Markdown Preview
-Plugin 'shime/vim-livedown'
+Plug 'shime/vim-livedown'
 
 " Markdown Pandoc
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " Latex Support
-Plugin 'lervag/vimtex'
-Plugin 'sirver/ultisnips'
+Plug 'lervag/vimtex'
+Plug 'sirver/ultisnips'
 
 " Asynchronous linting and make
-Plugin 'neomake/neomake'
+Plug 'neomake/neomake'
 
 " Go Support
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go'
 
 " Zig Support
-Plugin 'ziglang/zig.vim'
+Plug 'ziglang/zig.vim'
 
 " Nim support
-"Plugin 'zah/nim.vim'
-Plugin 'alaviss/nim.nvim'
+"Plug 'zah/nim.vim'
+Plug 'alaviss/nim.nvim'
 
 " Rust Support
-Plugin 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+" All of your Plugs must be added before the following line
+call plug#end()
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :PlugList       - lists configured plugins
+" :PlugInstall    - installs plugins; append `!` to update or just :PlugUpdate
+" :PlugSearch foo - searches for foo; append `!` to refresh local cache
+" :PlugClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Put your non-Plug stuff after this line
 
 " ---------- Monokai color scheme ----------
 " syntax on
