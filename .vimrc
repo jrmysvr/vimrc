@@ -16,12 +16,10 @@ set hlsearch
 " Highlight the current cursor line
 set cursorline
 
-" Highlight the 80 column margin.
-" Highlight the 120 margin for black.
 set colorcolumn=80,99,120
 
 " Trim the trailing white space on save.
-" autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " ---------- Indentation ----------
 " Use spaces instead of tabs
@@ -56,129 +54,115 @@ set listchars=space:\.
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" -------- Vundle --------
+" -------- vim-plug --------
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
 
 " Flash yanked area
-Plugin 'kana/vim-operator-user'
-Plugin 'haya14busa/vim-operator-flashy'
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
 
 " better JSON for Vim
-Plugin 'elzr/vim-json'
+Plug 'elzr/vim-json'
 
 " fugitive.vim: A Git wrapper so awesome, it should be illegal
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " The monokai color scheme.
-Plugin 'filfirst/Monota'
+Plug 'filfirst/Monota'
 
 " The falcon theme
-Plugin 'fenetikm/falcon'
-
-" Tokyo Night theme
-Plugin 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'fenetikm/falcon'
 
 " Everforest theme
-Plugin 'sainnhe/everforest'
+Plug 'sainnhe/everforest'
 
 " material theme
-Plugin 'marko-cerovac/material.nvim'
+Plug 'marko-cerovac/material.nvim'
 
 " The project source tree browser.
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
 " A light and configurable statusline/tabline plugin for Vim
-Plugin 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+
+Plug 'nvim-lualine/lualine.nvim'
 
 " The enhanced C++ syntax highlighting.
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Plugin 'neoclide/coc.nvim', {'branch':'release'}
+" Plug 'neoclide/coc.nvim', {'branch':'release'}
 
 " Check Python Syntax
-Plugin 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " Super Searching
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
 " tmux navigation
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Nerd Commenting
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " VimWiki
-Plugin 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 
 " Auto PEP8
-" Plugin 'tell-k/vim-autopep8'
+" Plug 'tell-k/vim-autopep8'
 
 " Python Black
-Plugin 'psf/black', {'branch':'stable'}
+Plug 'psf/black', {'branch':'stable'}
 
 " PEP 8 checking
-Plugin 'nvie/vim-flake8'
+Plug 'nvie/vim-flake8'
 
 " Python Autocompletion
-Plugin 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " Python Indent
-Plugin 'https://github.com/vim-scripts/indentpython.vim'
+Plug 'https://github.com/vim-scripts/indentpython.vim'
 
 " Markdown Preview
-Plugin 'shime/vim-livedown'
+Plug 'shime/vim-livedown'
 
 " Markdown Pandoc
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-
-" Latex Support
-" Plugin 'lervag/vimtex'
-" Plugin 'sirver/ultisnips'
-
-" Go Support
-Plugin 'fatih/vim-go'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " Pylint support
-Plugin 'gryf/pylint-vim'
+Plug 'gryf/pylint-vim'
 
 " Copilot Support
-Plugin 'github/copilot.vim'
+Plug 'github/copilot.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+Plug 'kovetskiy/vim-bash'
+
+Plug 'kovetskiy/vim-bash'
+
+" Nightfox Theme
+Plug 'EdenEast/nightfox.nvim'
+
+" Moonfly Theme
+Plug 'https://github.com/bluz71/vim-moonfly-colors'
+
+" Kanagawa Theme
+Plug 'https://github.com/rebelot/kanagawa.nvim'
+
+" All of your Plugs must be added before the following line
+call plug#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 " ---------- NerdTree Project Browser ----------
 nnoremap <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeMinimalMenu = 1
 
-
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-"autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
 
 " ----------- Nerd Commenter ---------------
 let g:NERDSpaceDelims = 1
@@ -203,9 +187,6 @@ au BufNewFile, BufRead *.py
     \ set encoding=utf-8|
 
 
-" let python_highlight_all=1
-" syntax on
-
 " Ignore files in NERDTree
 let NERDTreeIgnore=['\.pyc$', '\~$']
 
@@ -214,62 +195,21 @@ set clipboard=unnamed
 
 " ----------- Syntastic ----------------
 
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
 " Disable pymode
 let g:pymode_lint_on_write=0
 
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_python_checkers=['autopep8'] ", 'pylint']
 let g:syntastic_python_python_exec='python3'
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args = '--ignore=W503,E203,E501,E402'
-" let g:syntastic_python_checkers=['black']
-
-" ----------- Autopep8 ---------------
-
-" let g:autopep8_ignore="E221"
-" let g:autopep8_ignore="E402"
-" let g:autopep8_max_line_length=79
-" let g:autopep8_aggressive=1
-" let g:autopep8_on_save=1
-" let g:autopep8_disable_show_diff=1
 
 " ----------- Black ---------------
 "  Run Black when saving python files
-" autocmd BufWritePre *.py execute ':Black'
 let g:black_linelength=99
 
 " --------- Vim Operator Flashy --------
 map y <Plug>(operator-flashy)
 nmap Y <Plug>(operator-flashy)$
-
-" -------- Lightline ---------
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'realpath', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
-      \ },
-      \ }
-
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
 
 " ------- Latex -------
 let g:tex_flavor='latex'
@@ -283,7 +223,9 @@ let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
-setlocal spell spelllang=en_us,de_ch
+if has('nvim')
+    setlocal spell spelllang=en_us,de_ch
+endif
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " -------- CoC ----------
@@ -325,41 +267,58 @@ autocmd BufNew,BufEnter *.py execute "silent! CocDisable"
 " Flag unnecessary whitespace
 au BufRead, BufNewFile *.py,*.pyw,*.c,*.h,*.cpp,*.hpp match BadWhitespace /\s\+$/
 
+" ------ Lualine -------
+"
+lua << END
+require('lualine').setup {
+  options = { theme = 'ayu_dark' },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'filename'},
+    lualine_c = {'branch'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactivate_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+}
+END
+
 " ########## Themes ############
 " ---------- Monokai color scheme ----------
 " syntax on
 " colorscheme Monota
-"
 
 " ---------- Falcon -----------
 " colorscheme falcon
 
-" let g:falcon_lightline = 1
-" let g:lightline.colorscheme = 'falcon'
-
-" let g:falcon_airline = 1
-" let g:airline_theme = 'falcon'
-
 " ---------- Tokyo Night -----------
 "
-" let g:tokyonight_style = "day" " storm, night, or day
-
 " colorscheme tokyonight
-
-" let g:lightline = {'colorscheme': 'tokyonight'}
 "
-" ---------- Material -----------
-"Vim-Script:
-" let g:material_style = 'deep ocean' " darker, lighter, oceanic, palenight, deep ocean
-
-" colorscheme material
+" ---------- Nightfox -----------
 "
+" colorscheme nightfox
+
+" ---------- Moonfly -----------
+"
+colorscheme moonfly
+
+" ---------- Kanagawa -----------
+"
+"colorscheme kanagawa-dragon
 
 " ---------- Everforest -----------
-
-set background=dark " dark or light
-let g:everforest_background = 'hard' "hard, medium, soft
-let g:lightline = {'colorscheme' : 'everforest'}
-let g:everforest_enable_italic = 1
+"
+" set background=dark " dark or light
+" let g:everforest_background = 'hard' "hard, medium, soft
+" let g:everforest_enable_italic = 1
 " let g:everforest_disable_italic_comment = 1
-colorscheme everforest
+" colorscheme everforest
