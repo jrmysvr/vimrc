@@ -144,6 +144,9 @@ Plug 'alaviss/nim.nvim'
 " Rust Support
 Plug 'rust-lang/rust.vim'
 
+" Jump support
+Plug 'pechorin/any-jump.vim'
+
 " Nightfox Theme
 Plug 'EdenEast/nightfox.nvim'
 
